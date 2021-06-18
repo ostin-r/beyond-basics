@@ -10,6 +10,7 @@ to output statements about what went wrong and how it can
 create bugs and other problems.
 '''
 import copy
+import time
 
 def loop_list():
     '''
@@ -135,20 +136,61 @@ def test_add_item():
     An illustration of add_item_bad (bad example) and add_item_good (good example)
     '''
     # the list initialized in add_item_bad is continually referenced and a new list is not created
-    cleaning_items = add_item_bad('cloth')
-    print(cleaning_items)
-    cleaning_items = add_item_bad('towel')
-    print(cleaning_items)
+    first_cleaning_items = add_item_bad('cloth')
+    print(first_cleaning_items)
 
-    # a new list is created for each new assignment of cleaning_items
-    cleaning_items = add_item_good('cloth')
-    print(cleaning_items)
-    cleaning_items = add_item_good('towel')
-    print(cleaning_items)
+    second_cleaning_items = add_item_bad('towel')
+    print(second_cleaning_items)
+
+    # a new list is created for each new assignment of first_cleaning_items, second_cleaning_items
+    first_cleaning_items = add_item_good('cloth')
+    print(first_cleaning_items)
+
+    second_cleaning_items = add_item_good('towel')
+    print(second_cleaning_items)
+
+
+def string_concatenate():
+    '''
+    Building strings through concatenation is usually not a problem
+    on a small scale.  However, since one is creating an entirely
+    new string object whenever concatenation is used (and it is then
+    immediately discarded on the next iteration), this creates much more
+    work for the CPU than is necessary.
+
+    Note: I found that this was only significant for list lengths above
+    1 million items for my machine.
+    '''
+    LIST_LENGTH = 1000000
+
+    concatenate_start = time.time()
+    final_string = ''
+
+    for i in range(LIST_LENGTH):
+        final_string += 'hello '
+
+    concatenate_finish = time.time()
+
+    concatenate_time = concatenate_finish - concatenate_start
+    print(f'time to concatenate 1,000,000 strings = {concatenate_time} s')
+
+    # Solution: create a list to store items in then use .join() to convert to string
+    append_start = time.time()
+    final_string = []
+
+    for i in range(LIST_LENGTH):
+        final_string.append('hello')
+
+    final_string = ' '.join(final_string)
+    append_finish = time.time()
+
+    append_time = append_finish - append_start
+    print(f'time to append and join 1,000,000 strings = {append_time} s')
+    print(f'Appending and joining is {round(concatenate_time/append_time, 3)} times faster')
 
 
 def main():
-    test_add_item()
+    string_concatenate()
 
 
 if __name__ == '__main__':
