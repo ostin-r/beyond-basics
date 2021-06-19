@@ -234,9 +234,36 @@ def floating_point_error():
     print(f'Precise floating point value = {precise_float}')
 
 
-def main():
-    floating_point_error()
+def chained_inequal_error():
+    '''
+    Chaining the inequality operator can yield a misleading error
+    in the following example:
+    '''
+    a = 1
+    b = 2
+    c = 1
+    result = a != b != c
 
+    print(f'a = {a}')
+    print(f'b = {b}')
+    print(f'c = {c}')
+    print(f'a != b != c yields: {result}')
+
+
+def single_tuples():
+    '''
+    In order for python to recognize assignment of a single-value tuple,
+    a trailing comma must still be used. 
+    '''
+    bad_tuple = ('potato')
+    print(bad_tuple[0])
+
+    good_tuple = ('potato',)
+    print(good_tuple[0])
+
+
+def main():
+    single_tuples()
 
 if __name__ == '__main__':
     main()
