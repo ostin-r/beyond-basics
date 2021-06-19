@@ -253,13 +253,17 @@ def chained_inequal_error():
 def single_tuples():
     '''
     In order for python to recognize assignment of a single-value tuple,
-    a trailing comma must still be used. 
+    a trailing comma must still be used.  Commas are more indicative of
+    a tuple than parentheses.
     '''
     bad_tuple = ('potato')
     print(bad_tuple[0])
 
     good_tuple = ('potato',)
     print(good_tuple[0])
+
+    also_tuple = 'potato', # also tuple, but not pythonic
+    print(also_tuple[0])
 
 
 def main():
