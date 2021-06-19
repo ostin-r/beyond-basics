@@ -11,6 +11,7 @@ create bugs and other problems.
 '''
 import copy
 import time
+import decimal
 
 def loop_list():
     '''
@@ -189,8 +190,52 @@ def string_concatenate():
     print(f'Appending and joining is {round(concatenate_time/append_time, 3)} times faster')
 
 
+def alphabetical_sort():
+    '''
+    Python's sort() method doesn't always function as expected when 
+    sorting strings- this is because this method uses the ASCII standard
+    to decide how to sort items.
+    '''
+    letters = ['d', 'b', 'c', 'A', 'Z', 'Q', 'q']
+    print(letters)
+
+    letters.sort()
+    print(letters, '\n')
+
+    # Solution - set all items to lowercase first:
+    letters = ['d', 'b', 'c', 'A', 'Z', 'Q', 'q']
+    print(letters)
+
+    letters.sort(key=str.lower)
+    print(letters)
+
+
+def floating_point_error():
+    '''
+    Certain floating point values are will yield unexpected bugs.
+    This is because of how the IEEE 754 standard stores floating
+    point values (and is referenced as beyond the scope of
+    the textbook)  Here are some examples that follow- at the 
+    end of the day, the author just states that you shouldn't
+    assume floating point values are perfectly accurate.
+    '''
+    print('The floating point value 0.1 behaves unexpectedly sometimes:')
+    print(f'0.3 == 0.1 + 0.1 + 0.1 is {0.3 == 0.1 + 0.1 + 0.1}')
+
+    print('\nValues beyond 2^53 also cannot be represented correctly when converted to floats:')
+    print(f'2^53 = {float(2**53)}')
+    print(f'2^53 + 1 = {float(2**53) + 1}')
+
+    # Solution: the decimal module allows one to make objects that accurately represent floats
+    normal_float = decimal.Decimal(0.1)
+    print(f'Normal floating point value = {normal_float}')
+
+    precise_float = decimal.Decimal('0.1')
+    print(f'Precise floating point value = {precise_float}')
+
+
 def main():
-    string_concatenate()
+    floating_point_error()
 
 
 if __name__ == '__main__':
