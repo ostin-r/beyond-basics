@@ -12,20 +12,67 @@ def preallocated_integers():
     any variables created with the same number within this
     range and compared with the "is" operator will return 
     True.  False will be returned for any numbers outside
-    this range because new objects are created for them.
+    this range because new objects are created for each.
+
+    Interestingly, I could only coax this esoteric issue
+    out when using the "for" loop below- notice that 
+    "c is d" still yields True.  This is not the case 
+    whenever I run this in a shell though.  I suspect this
+    is because of a similar implementation feature to 
+    string interning.
     '''
     a = 0
     b = 0
     print(f'a is b: {a is b}')
 
-    # TODO figure out why this doesn't happen in vscode
-    c = 12
-    d = 12
+    c = 257
+    d = 257
     print(f'c is d: {c is d}')
+
+    for x, y in zip(range(256, 258), range(256, 258)):
+        print(x is y)
+
+
+def string_interning():
+    '''
+    String interning is an implementation feature that recognizes
+    when the same string is assigned to a different variable.  The
+    program saves space by assigning both variables to the same 
+    object.
+    '''
+    spam = 'grass'
+    eggs = 'grass'
+    print(spam is eggs)
+
+
+def all_of_nothing():
+    '''
+    Python's all() function is used to determine if all values
+    within a list are truthy. However, it will still return True
+    if it is passed an empty list.
+
+    It is therefore better to describe the all() function as
+    being able to tell you "there are not False values in this
+    list"
+    '''
+    test = [21, 8, 19]
+    test_boolean = [i > 22 for i in test]
+    print(all(test_boolean))
+
+    test_boolean = [i > 7 for i in test]
+    print(all(test_boolean))
+
+    print(all([]))
+
+    # doing a list comprehension can further muddle this feature and cause bugs
+    test = []
+    print(all([i < 10 for i in test]))
+    print(all([i > 10 for i in test]))
+    print(all([i == 10 for i in test]))
 
 
 def main():
-    preallocated_integers()
+    all_of_nothing()
 
 if __name__ == '__main__':
     main()
