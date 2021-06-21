@@ -71,8 +71,25 @@ def all_of_nothing():
     print(all([i == 10 for i in test]))
 
 
+def boolean_integers():
+    '''
+    Since True and False are both in a subclass of 
+    Int, they behave in the same way that 1 (True) or
+    0 (False) does.
+    '''
+    assert True == 1
+    assert False == 0
+
+    values = [1, 2, 3]
+    print(values[True])
+    print(values[False])
+
+    print(12 * -True)
+    print(12 * False)
+
+
 def main():
-    all_of_nothing()
+    boolean_integers()
 
 if __name__ == '__main__':
     main()
