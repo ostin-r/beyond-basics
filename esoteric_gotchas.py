@@ -4,6 +4,7 @@ Austin Richards 6/19/21
 esoteric_gotchas.py is a collection of more nuanced gotchas
 copied from chapter 9 of the textbook.
 '''
+import antigravity
 
 def preallocated_integers():
     '''
@@ -76,6 +77,8 @@ def boolean_integers():
     Since True and False are both in a subclass of 
     Int, they behave in the same way that 1 (True) or
     0 (False) does.
+
+    Do not use boolean values as numbers.
     '''
     assert True == 1
     assert False == 0
@@ -88,8 +91,20 @@ def boolean_integers():
     print(12 * False)
 
 
+def chaining_operators():
+    '''
+    Chaining different operators can often lead to unexpected
+    bugs- keep an eye out for this.
+
+    False == False in [False] actually evaluates the same
+    way (False == False) and (False in [False]) evaluates.
+    '''
+    value = False == False in [False]
+    print(value)
+
+
 def main():
-    boolean_integers()
+    chaining_operators()
 
 if __name__ == '__main__':
     main()
