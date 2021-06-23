@@ -42,6 +42,8 @@ def my_min_function(*args):
     else:
         values = args
 
+    smallest_value = float('-inf')
+
     for i, value in enumerate(values):
         if i == 0 or value < smallest_value:
             smallest_value = value
@@ -79,9 +81,44 @@ def print_lower(*args, **kwargs):
     return print(*args, **kwargs)
 
 
+total_count = 0 # global for add_to_total
+
+def add_to_total(amount):
+    '''
+    Just one example of a function with "side effects"- any effects
+    that are created by the function outside of it's own code.
+
+    This function modifies a global variable, total_count
+    '''
+    global total_count
+    total_count += amount
+    return total_count
+
+
+def call_it_twice(func, *args, **kwargs):
+    '''
+    call_it_twice is an example of a higher order function that
+    is used to execute another function twice.
+    '''
+    func(*args, **kwargs)
+    func(*args, **kwargs)
+
+
+def lambda_functions():
+    '''
+    A couple ways lambda functions can be used.
+    '''
+    rectangle_area = lambda side: side[0] * side[1]
+    print(rectangle_area([12, 14]))
+
+    # lambda functions are also commonly used to be passed to other functions
+    rectangles = [[1, 2], [3, 4], [82, 2], [5, 8], [9, 3]]
+    rects_sorted = sorted(rectangles, key=lambda side: side[0] * side[1])
+    print(rects_sorted)
+
+
 def main():
-    print_lower('Hello', 'Austin')
-    print_lower('Hello', 'Austin', sep=', ')
+    pass
 
 if __name__ == '__main__':
     main()
