@@ -262,7 +262,7 @@ def single_tuples():
     good_tuple = ('potato',)
     print(good_tuple[0])
 
-    also_tuple = 'potato', # also tuple, but not pythonic
+    also_tuple = 'potato', # also a tuple, but not pythonic
     print(also_tuple[0])
 
 
