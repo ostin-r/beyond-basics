@@ -266,8 +266,17 @@ def single_tuples():
     print(also_tuple[0])
 
 
+def type_hinting(number: int, name: str) -> str:
+    '''
+    Type hinting is cool!
+    '''
+    number += 1
+    return name + 'a'
+
+
+
 def main():
-    single_tuples()
+    print(type_hinting(2, 'austin'))
 
 if __name__ == '__main__':
     main()
