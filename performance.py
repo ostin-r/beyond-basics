@@ -7,6 +7,11 @@ modules
 import timeit
 import cProfile
 
+# global variables -----------
+spam = 'yes'
+# ----------------------------
+
+
 def timeit_example():
     '''
     Some fun examples of the testing the timing of small snipets
@@ -28,9 +33,12 @@ def timeit_example():
     print('Time to generate 10,000,000 random numbers from 1 & 100')
     print(timeit.timeit('random.randint(1,100)', 'import random', number=10000000))
 
-    print('')
+    print('Time to print a string:')
+    print(timeit.timeit('print(spam)', number=1, globals=globals()))
 
 
+def cprofile_example():
+    pass
 
 
 def main():
