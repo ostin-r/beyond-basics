@@ -2,10 +2,12 @@
 Austin Richards 6/28/21
 
 performance.py includes examples of the timeit and cProfile
-modules
+modules in addition to some examples of determining the 
+time complexity of functions.
 '''
 import timeit
 import cProfile
+from typing import List
 
 # global variables -----------
 spam = 'yes'
@@ -37,12 +39,24 @@ def timeit_example():
     print(timeit.timeit('print(spam)', number=1, globals=globals()))
 
 
+def add_numbers():
+    '''
+    A test function for doing an example of the cProfile module.
+    '''
+    total = 0
+    for i in range(1, 1000001):
+        total += 1
+
+
 def cprofile_example():
-    pass
+    '''
+    An example of using cprofile.run() to profile the add_numbers function
+    '''
+    cProfile.run('add_numbers()')
 
 
 def main():
-    timeit_example()
+    reading_list(['hello', 'austin'])
 
 if __name__ == '__main__':
     main()
