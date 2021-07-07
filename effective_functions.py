@@ -122,7 +122,6 @@ def type_hinting(number: int, name: str) -> str:
     Type hinting is cool!
     '''
     spam: list = [1, 3, 5]
-    spam = 3
 
     number += 1
     return name + 'a'
