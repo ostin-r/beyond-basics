@@ -15,7 +15,47 @@ TOTAL_DISKS = 5 # More disks means a more difficult puzzle
 SOLVED_TOWER = list(range(TOTAL_DISKS, 0, -1))
 
 def main():
-    pass
+    '''Runs a single game of Tower of Hanoi.'''
+    print(
+        '''THE TOWER OF HANOI, by Al Sweigart al@inventwithpython.com
+
+Move the tower of disks, one disk at a time, to another tower. Larger
+disks cannot rest on top of a smaller disk.
+
+More info at: https://en.wikipedia.org/wiki/Tower_of_Hanoi
+'''
+    )
+
+    '''
+    The towers dictionary has keys "A", "B", and "C" and values
+    that are lists representing a tower of disks. The list contains
+    integers representing disks of different sizes, and the start of
+    the list is the bottom of the tower. For a game with 5 disks,
+    the list [5, 4, 3, 2, 1] represents a completed tower. The blank
+    list [] represents a tower of no disks. The list [1, 3] has a
+    larger disk on top of a smaller disk and is an invalid
+    configuration. The list [3, 1] is allowed since smaller disks
+    can go on top of larger ones.
+    '''
+
+    towers = {'A': copy.copy(SOLVED_TOWER), 'B': [], 'C': []}
+
+    while True: # Run a single turn on each iteration of this loop.
+        # Display the towers and disks:
+        display_towers(towers)
+
+        # Ask the user for a move:
+        from_tower, to_tower = get_player_move(towers)
+
+        # Move the top disk from from_tower to to_tower
+        disk = towers[from_tower].pop()
+        towers[to_tower].append(disk)
+
+        # Check if the player has solved the puzzle:
+        if SOLVED_TOWER in (towers['B'], towers['C']):
+            display_towers(towers) # Display the towers one last time.
+            print('You have solved the puzzle! Well done!')
+            sys.exit()
 
 
 def get_player_move(towers: list) -> list:
