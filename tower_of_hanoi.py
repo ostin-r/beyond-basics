@@ -18,9 +18,11 @@ def main():
     '''Runs a single game of Tower of Hanoi.'''
     print(
         '''THE TOWER OF HANOI, by Al Sweigart al@inventwithpython.com
+A stack-moving puzzle game.
 
 Move the tower of disks, one disk at a time, to another tower. Larger
-disks cannot rest on top of a smaller disk.
+disks cannot rest on top of a smaller disk.  The goal is to recreate
+the stack on tower A on tower B or C.
 
 More info at: https://en.wikipedia.org/wiki/Tower_of_Hanoi
 '''
