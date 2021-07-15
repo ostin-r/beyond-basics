@@ -20,8 +20,21 @@ def main():
         while not game_board.is_valid_space(move):
             print(f'Enter move for {current_player}. (1-9)')
             move = str(input('>>> '))
-        game_board.update_board(move, )
+        game_board.update_board(move, current_player) # Make the move.
 
+        # Check if the game is over:
+        if game_board.is_winner(current_player):
+            print(game_board.get_board_string())
+            print(f'{current_player} has won the game!')
+            break
+        elif game_board.is_board_full(): # Next, check for a tie.
+            print(game_board.get_board_string())
+            print('The game is a tie!')
+            break
+
+        current_player, next_player = next_player, current_player # Swap turns.
+
+    print('Thanks for playing!')
 
 
 class GameBoard:
@@ -47,19 +60,19 @@ class GameBoard:
     def is_winner(self, player):
         s, p = self._spaces, player # Shorter names as "Syntactic Sugar"
         # Check for 3 marks across the three rows, three columns, and two diagonals
-        return ((s['1'] == s['2'] == s['3'] == p) # Rows
-                (s['4'] == s['5'] == s['6'] == p)
-                (s['7'] == s['8'] == s['9'] == p)
-                (s['1'] == s['4'] == s['7'] == p) # Columns
-                (s['2'] == s['5'] == s['8'] == p)
-                (s['3'] == s['6'] == s['9'] == p)
-                (s['3'] == s['5'] == s['7'] == p) # Diagonals
+        return ((s['1'] == s['2'] == s['3'] == p) or # Rows
+                (s['4'] == s['5'] == s['6'] == p) or
+                (s['7'] == s['8'] == s['9'] == p) or
+                (s['1'] == s['4'] == s['7'] == p) or # Columns
+                (s['2'] == s['5'] == s['8'] == p) or
+                (s['3'] == s['6'] == s['9'] == p) or
+                (s['3'] == s['5'] == s['7'] == p) or # Diagonals
                 (s['1'] == s['5'] == s['9'] == p))
 
     def is_board_full(self):
         '''Return True if every space on the board is taken.'''
         for space in ALL_SPACES:
-            if self._spaces == BLANK:
+            if self._spaces[space] == BLANK:
                 return False
         return True # No spaces are blank, so return True.
 
