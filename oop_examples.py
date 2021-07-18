@@ -7,17 +7,41 @@ a fictional currency made of galleons, sickles, and knuts; all of differing
 value.
 '''
 
+class WizCoinException(Exception):
+    '''The WizCoin class raises this when the module is misused'''
+    pass
+
+
 class WizCoin:
     def __init__(self, galleons, sickles, knuts):
         '''Create a new WizCoin object with galleons, sickles, and knuts.'''
-        self.galleons = galleons
+        self._galleons = galleons
         self.sickles = sickles
         self.knuts = knuts
         # NOTE: __init__ methods NEVER have a return statement
 
+
+    @property
+    def galleons(self):
+        '''Returns the number of galleons in this object.'''
+        return self._galleons
+
+
+    @galleons.setter
+    def galleons(self, amount):
+        if not isinstance(amount, int):
+            raise WizCoinException('galleons attribute must be set to an int, not ' \
+                + amount.__class__.__qualname__)
+        if amount < 0:
+            raise WizCoinException('amount must be greater than 0')
+        self._galleons = amount
+
+
+    @property
     def value(self):
         '''The value in knuts of all the coins in this WizCoin object.'''
         return (self.galleons * 17 * 29) + (self.sickles * 29) + (self.knuts)
+
 
     def weight(self):
         '''Returns the weight of the coins in grams'''
@@ -52,11 +76,31 @@ class BankAccount:
             ledger_file.write(f'Balance is {self._balance}\n')
 
 
+class ClassWithProperties:
+    def __init__(self):
+        self.someAttribute = 'some initial value'
+
+    @property
+    def someAttribute(self): # This is the "getter" method.
+        print('Getter method used.')
+        return self._someAttribute
+
+    @someAttribute.setter
+    def someAttribute(self, value): # This is the "setter" method.
+        print('Setter method used.')
+        self._someAttribute = value
+
+    @someAttribute.deleter
+    def someAttribute(self): # This is the "deleter" method.
+        print('Deleter method used.')
+        del self._someAttribute
+
+
 def main():
-    # The following creates a bank account ledger file and tracks deposits/withdrawals
-    account = BankAccount('Austin')
-    account.deposit(100)
-    account.withdraw(12)
+    purse = WizCoin(1, 2, 3)
+    print(purse.galleons)
+    purse.galleons = 5
+    print(purse.galleons)
 
 
 if __name__ == '__main__':
