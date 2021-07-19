@@ -21,6 +21,16 @@ class WizCoin:
         # NOTE: __init__ methods NEVER have a return statement
 
 
+    def __repr__(self):
+        '''Returns a string of an expression that recreates this object.'''
+        return f'{self.__class__.__qualname__}({self.galleons}, {self.sickles}, {self.knuts})'
+
+
+    def __str__(self):
+        '''Returns a human readable string representation of this object.'''
+        return f'{self.galleons}g, {self.sickles}s, {self.knuts}k'
+
+
     @property
     def galleons(self):
         '''Returns the number of galleons in this object.'''
@@ -101,6 +111,9 @@ def main():
     print(purse.galleons)
     purse.galleons = 5
     print(purse.galleons)
+
+    print(repr(purse))
+    print(str(purse))
 
 
 if __name__ == '__main__':
