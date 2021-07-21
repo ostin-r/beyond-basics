@@ -6,40 +6,21 @@ The first example of classes uses the class WizCoin, a representation of
 a fictional currency made of galleons, sickles, and knuts; all of differing
 value.
 """
-
+import collections.abc
+import operator
 
 class WizCoinException(Exception):
     """The WizCoin class raises this when the module is misused"""
-
     pass
 
 
 class WizCoin:
     def __init__(self, galleons, sickles, knuts):
         """Create a new WizCoin object with galleons, sickles, and knuts."""
-        self._galleons = galleons
+        self.galleons = galleons
         self.sickles = sickles
         self.knuts = knuts
         # NOTE: __init__ methods NEVER have a return statement
-
-    def __repr__(self):
-        """Returns a string of an expression that recreates this object."""
-        return f"{self.__class__.__qualname__}({self.galleons}, {self.sickles}, {self.knuts})"
-
-    def __str__(self):
-        """Returns a human readable string representation of this object."""
-        return f"{self.galleons}g, {self.sickles}s, {self.knuts}k"
-
-    def __add__(self, other):
-        """Adds the coins in WizCoin objects."""
-        if not isinstance(other, WizCoin):
-            return NotImplemented
-
-        return WizCoin(
-            other.galleons + self.galleons,
-            other.sickles + self.sickles,
-            other.knuts + self.knuts,
-        )
 
     @property
     def galleons(self):
@@ -65,6 +46,115 @@ class WizCoin:
     def weight(self):
         """Returns the weight of the coins in grams"""
         return (self.galleons * 31.103) + (self.sickles * 11.34) + (self.knuts * 5.0)
+
+    def _comparison_operator_helper(self, operator_function, other):
+        """A helper method for our comparison dunder methods."""
+        if isinstance(other, WizCoin):
+            return operator_function(self.value, other.value)
+        elif isinstance(other, (int, float)):
+            return operator_function(self.value, other)
+        elif isinstance(other, collections.abc.Sequence):
+            other_value = (other[0] * 17 * 29 + other[1] * 29 + other[2])
+            return operator_function(self.value, other_value)
+        elif operator_function == operator.eq:
+            return False
+        elif operator_function == operator.ne:
+            return True
+        else:
+            return NotImplemented
+
+    def __eq__(self, other): # Equal operator
+        return self._comparison_operator_helper(operator.eq, other)
+
+    def __ne__(self, other): # ne is "Not Equal"
+        return self._comparisonOperatorHelper(operator.ne, other)
+
+    def __lt__(self, other): # lt is "Less Than"
+        return self._comparisonOperatorHelper(operator.lt, other)
+        
+    def __le__(self, other): # le is "Less than or Equal"
+        return self._comparisonOperatorHelper(operator.le, other)
+
+    def __gt__(self, other): # gt is "Greater Than"
+        return self._comparisonOperatorHelper(operator.gt, other)
+
+    def __ge__(self, other): # ge is "Greater than or Equal"
+        return self._comparisonOperatorHelper(operator.ge, other)
+
+    def __repr__(self):
+        """Returns a string of an expression that recreates this object."""
+        return f"{self.__class__.__qualname__}({self.galleons}, {self.sickles}, {self.knuts})"
+
+    def __str__(self):
+        """Returns a human readable string representation of this object."""
+        return f"{self.galleons}g, {self.sickles}s, {self.knuts}k"
+
+    def __add__(self, other):
+        """Adds the coins in WizCoin objects."""
+        if not isinstance(other, WizCoin):
+            return NotImplemented
+
+        return WizCoin(
+            other.galleons + self.galleons,
+            other.sickles + self.sickles,
+            other.knuts + self.knuts,
+        )
+
+    def __sub__(self, other):
+        """Subtracts the coins in WizCoin objects."""
+        if not isinstance(other, WizCoin):
+            return NotImplemented
+
+        return WizCoin(
+            self.galleons - other.galleons,
+            self.sickles - other.sickles,
+            self.knuts - other.knuts,
+        )
+
+    def __mul__(self, number):
+        """Multiplies each coin type by the given non-negative integer."""
+        if not isinstance(number, int):
+            return NotImplemented
+        if number < 0:
+            raise WizCoinException('Cannot multiply by negative numbers')
+
+        return WizCoin(
+            self.galleons * number,
+            self.sickles * number,
+            self.knuts * number
+        )
+
+    def __rmul__(self, number):
+        """Multiplies the coin amounts by the given non-negative integer"""
+        return self.__mul__(number)
+
+    def __bool__(self):
+        if self.galleons == 0 and self.sickles == 0 and self.knuts == 0:
+            return False
+        return True
+
+    def __iadd__(self, other):
+        """Add the amounts in another WizCoin object to another"""
+        if not isinstance(other, WizCoin):
+            return NotImplemented
+        
+        # The self object is modified in place here
+        self.galleons += other.galleons
+        self.sickles += other.sickles
+        self.knuts += other.knuts
+        return self # in-place dunder methods (almost) always return self.
+
+    def __imul__(self, number):
+        """Multiply the amount of all coins in this object."""
+        if not isinstance(number, int):
+            return NotImplemented
+        if number < 0:
+            return WizCoinException('Cannot multiply by negative numbers')
+
+        self.galleons *= number
+        self.sickles *= number
+        self.knuts *= number
+        return self
 
 
 class BankAccount:
@@ -93,34 +183,10 @@ class BankAccount:
             ledger_file.write(f"Balance is {self._balance}\n")
 
 
-class ClassWithProperties:
-    def __init__(self):
-        self.someAttribute = "some initial value"
-
-    @property
-    def someAttribute(self):  # This is the "getter" method.
-        print("Getter method used.")
-        return self._someAttribute
-
-    @someAttribute.setter
-    def someAttribute(self, value):  # This is the "setter" method.
-        print("Setter method used.")
-        self._someAttribute = value
-
-    @someAttribute.deleter
-    def someAttribute(self):  # This is the "deleter" method.
-        print("Deleter method used.")
-        del self._someAttribute
-
-
 def main():
-    purse = WizCoin(1, 2, 3)
-    print(purse.galleons)
-    purse.galleons = 5
-    print(purse.galleons)
-
-    print(repr(purse))
-    print(str(purse))
+    purse = WizCoin(19, 19, 221)
+    tip_jar = WizCoin(1, 0, 0)
+    print(purse - tip_jar)
 
 
 if __name__ == "__main__":
