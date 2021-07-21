@@ -67,19 +67,19 @@ class WizCoin:
         return self._comparison_operator_helper(operator.eq, other)
 
     def __ne__(self, other): # ne is "Not Equal"
-        return self._comparisonOperatorHelper(operator.ne, other)
+        return self._comparison_operator_helper(operator.ne, other)
 
     def __lt__(self, other): # lt is "Less Than"
-        return self._comparisonOperatorHelper(operator.lt, other)
-        
+        return self._comparison_operator_helper(operator.lt, other)
+
     def __le__(self, other): # le is "Less than or Equal"
-        return self._comparisonOperatorHelper(operator.le, other)
+        return self._comparison_operator_helper(operator.le, other)
 
     def __gt__(self, other): # gt is "Greater Than"
-        return self._comparisonOperatorHelper(operator.gt, other)
+        return self._comparison_operator_helper(operator.gt, other)
 
     def __ge__(self, other): # ge is "Greater than or Equal"
-        return self._comparisonOperatorHelper(operator.ge, other)
+        return self._comparison_operator_helper(operator.ge, other)
 
     def __repr__(self):
         """Returns a string of an expression that recreates this object."""
